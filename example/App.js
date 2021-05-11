@@ -58,6 +58,7 @@ const DISPLAY_VALUES = Platform.select({
   windows: [],
 });
 const MINUTE_INTERVALS = [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30];
+const THEME_VARIANTS = [undefined, 'light', 'dark'];
 
 export const App = () => {
   const [date, setDate] = useState(new Date(1598051730000));
@@ -69,6 +70,7 @@ export const App = () => {
   const [interval, setMinInterval] = useState(1);
   const [neutralButtonLabel, setNeutralButtonLabel] = useState(undefined);
   const [disabled, setDisabled] = useState(false);
+  const [themeVariant, setThemeVariant] = useState(THEME_VARIANTS[0]);
 
   // Windows-specific
   const [time, setTime] = useState(undefined);
@@ -177,6 +179,15 @@ export const App = () => {
               </ThemedText>
               <Switch value={disabled} onValueChange={setDisabled} />
             </View>
+            <SegmentedControl
+              values={THEME_VARIANTS.map(variant => variant === undefined ? 'default' : variant)}
+              selectedIndex={THEME_VARIANTS.indexOf(themeVariant)}
+              onChange={(event) => {
+                setThemeVariant(
+                  THEME_VARIANTS[event.nativeEvent.selectedSegmentIndex],
+                );
+              }}
+            />
             <View style={styles.header}>
               <ThemedText style={{margin: 10, flex: 1}}>
                 neutralButtonLabel (android only)
